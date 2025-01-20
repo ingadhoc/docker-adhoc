@@ -181,7 +181,8 @@ USER odoo
 ## ---------------------------------------------------------------- SO
 
 FROM os-base AS os-base-updated
-ARG ODOO_BY_ADHOC_BUILD=0
+ARG ODOO_BY_ADHOC_BUILD \
+    ODOO_MINOR_VERSION
 USER root
 RUN export NEEDRESTART_MODE=a \
     && export DEBIAN_FRONTEND=noninteractive \
@@ -194,7 +195,7 @@ RUN export NEEDRESTART_MODE=a \
     && apt-get -qqy autoremove \
     && apt-get -qqy clean \
     && rm -Rf /var/lib/apt/lists/* /tmp/* \
-    && echo "$ODOO_BY_ADHOC_BUILD" > ODOO_BY_ADHOC_BUILD
+    && echo "$ODOO_VERSION.$ODOO_MINOR_VERSION" > ODOO_BY_ADHOC_VERSION
 USER $ODOO_USER
 
 FROM os-base-updated AS aggregate-source
